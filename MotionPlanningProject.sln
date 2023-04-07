@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CameraPlanner", "CameraPlanner\CameraPlanner.pyproj", "{63FDEDAB-635C-4CA4-9993-E09EC7DC5845}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{63FDEDAB-635C-4CA4-9993-E09EC7DC5845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63FDEDAB-635C-4CA4-9993-E09EC7DC5845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9AB415AD-76F6-4A51-A6C1-40A604CB002A}
+	EndGlobalSection
+EndGlobal
