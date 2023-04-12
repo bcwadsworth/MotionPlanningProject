@@ -4,6 +4,7 @@ import matplotlib.pyplot as plotter
 from collisions import PolygonEnvironment
 import time
 import heapq
+import dStar
 
 _DEBUG = False
 _DEBUG_END = True
@@ -230,7 +231,7 @@ class PRM:
         # Build the roadmap instance
         self.T = RoadMap()
 
-    def build_prm(self, reset=False):
+    def build__prm(self, reset=False):
         '''
         reset - empty the current roadmap if requested
         '''
@@ -281,7 +282,7 @@ class PRM:
             return np.linalg.norm(x - goal) < self.epsilon        
     
         # Use uniform cost search to search for a path 
-        path, visited = self.uniform_cost_search(start_node, is_goal, goal_node)
+        path, visited = dStar(start_node, is_goal, goal_node)
         visited.add(goal_node)
         path.append(goal_node.state)
         
@@ -289,60 +290,6 @@ class PRM:
             return path, visited
         
         return None, visited
-
-
-    def uniform_cost_search(self, init_node, is_goal, goal_node):
-        '''
-        Perform graph search on the roadmap using A star with heuristics
-        '''
-        cost = 0
-        cost = euclidean_heuristic(self, init_node.state, goal_node.state)
-        init_node.cost = cost
-
-        frontier = PriorityQ()
-        frontier.push( init_node , cost)
-        visited = set()
-
-        done = False
-        last = None
-        
-        def is_visited(n_test, visited):
-            '''
-            Test if n_test is already in visited set
-            '''
-            for n in visited:
-                if (n_test == n.state).all():  # compare the state of the nodes
-                    return True
-            return False
-        
-        while len(frontier) > 0  and not done:
-            node = frontier.pop()
-            visited.add(node)
-            samples = []
-            for i in range(self.N):
-                samples.append(self.sample())
-
-            neighbors = self.find_valid_neighbors(node.state, samples, self.r)
-            for n in neighbors:
-                node.add_neighbor(n)
-            if is_goal(node.state):
-                last = node
-                done = True
-                break
-            for neighbor in node.neighbors:
-                s_heur = euclidean_heuristic(self, node.state, goal_node.state)
-                n_heur = euclidean_heuristic(self, neighbor, goal_node.state)
-                new_cost = node.cost + np.linalg.norm(neighbor - node.state) + n_heur - s_heur
-                if not is_visited(neighbor, visited):
-                    new_node = RoadMapNode(neighbor, cost = new_cost, parent= node)
-                    frontier.push(new_node, new_cost)
-        
-        path = []
-        if last is not None:
-            path = backpath(last)
-        
-        return path, visited
-
     
     def sample(self):
         '''
