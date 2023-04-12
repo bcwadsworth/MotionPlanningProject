@@ -264,6 +264,7 @@ class LZ_PRM:
             if np.linalg.norm(n_query - sample) < r:
                 if not self.in_collision(sample):
                     if self.local_planner.plan(n_query, sample) is not None:
+#                        sample.cost
                         valid_neighbors.append(sample)
         return valid_neighbors
     
