@@ -205,7 +205,7 @@ class RoadMap:
         states = np.array([n.state for n in self.nodes])
         return (states, self.edges)
 
-class PRM:
+class LZ_PRM:
     def __init__(self, num_samples, local_planner: StraightLinePlanner, num_dimensions, lims = None,
                  collision_func = None, radius=2.0, epsilon=0.1):
         self.local_planner = local_planner
@@ -231,7 +231,7 @@ class PRM:
         # Build the roadmap instance
         self.T = RoadMap()
 
-    def build__prm(self, reset=False):
+    def build_lazy_prm(self, reset=False):
         '''
         reset - empty the current roadmap if requested
         '''
@@ -314,7 +314,7 @@ def test_prm_env(num_samples=150, step_length=.15, env='./env1.txt'):
     start_time = time.time()
 
     local_planner = StraightLinePlanner(step_length, pe.test_collisions)
-    prm = PRM(num_samples,
+    prm = LZ_PRM(num_samples,
               local_planner,
               dims,
               radius = 35,
