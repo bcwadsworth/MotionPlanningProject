@@ -4,6 +4,7 @@ import matplotlib.pyplot as plotter
 from collisions import PolygonEnvironment
 import time
 import heapq
+from dStar import dStar
 
 _DEBUG = False
 _DEBUG_END = True
