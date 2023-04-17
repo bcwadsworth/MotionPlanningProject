@@ -206,11 +206,17 @@ class RoadMap:
         return (states, self.edges)
 
 class LZ_PRM:
-    def __init__(self, num_samples, local_planner: StraightLinePlanner, num_dimensions, lims = None,
-                 collision_func = None, radius=2.0, epsilon=0.1):
+    def __init__(self, 
+                 local_planner: StraightLinePlanner, 
+                 num_dimensions, 
+                 lims = None,
+                 collision_func:PolygonEnvironment.test_collisions = None, 
+                 n_nodes = 500, #the desired number of nodes in the final roadmap (at least)
+                 radius=2.0, 
+                 epsilon=0.1):
         self.local_planner = local_planner
         self.r = radius
-        self.N = num_samples
+        self.N = n_nodes
         self.n = num_dimensions
         self.epsilon = epsilon
 
@@ -239,19 +245,24 @@ class LZ_PRM:
             self.T = RoadMap()
             
         # Sample N configurations
-        samples = []
-        for i in range(self.N):
-            samples.append(self.sample())
-
+        
+        radom_count =self.N
+        samples =[]
+        #print(type(self.N))
+        #print(type(len(self.T.nodes)))
+        while(self.N != len(samples)):
+            tmp_samples = [self.sample() for i in range(radom_count)]
+            for s in tmp_samples:
+                node = RoadMapNode(s)
+                if(not any(np.array_equal(s, arr_s) for arr_s in samples) and not self.in_collision(node.state)):
+                    samples.append(s)
+            radom_count=self.N - len(samples) 
+                       
+        # Add to roadmap
         for s in samples:
             node = RoadMapNode(s)
-            if not self.in_collision(node.state):
-                neighbors = self.find_valid_neighbors(s, samples, self.r)
-                neighbor_nodes = []
-                for n in neighbors:
-                    neighbor_node = RoadMapNode(n)
-                    neighbor_nodes.append(neighbor_node)
-                self.T.add_node(node, neighbor_nodes)
+            neighbors = self.find_valid_neighbors(s, samples, self.r)
+            self.T.add_node(node, [RoadMapNode(n) for n in neighbors])
 
     def find_valid_neighbors(self, n_query, samples, r):
         '''
@@ -315,28 +326,28 @@ def test_prm_env(num_samples=150, step_length=.15, env='./env1.txt'):
     start_time = time.time()
 
     local_planner = StraightLinePlanner(step_length, pe.test_collisions)
-    prm = LZ_PRM(num_samples,
-              local_planner,
-              dims,
-              radius = 35,
-              epsilon = step_length,
-              lims = pe.lims,
-              collision_func=pe.test_collisions)
+    lzprm = LZ_PRM( local_planner,
+                  dims, 
+                  lims = pe.lims,
+                  n_nodes =100,
+                  radius=20,
+                  epsilon=step_length,
+                  collision_func=pe.test_collisions,  )
     print('Building PRM')
-    prm.build_prm()
+    lzprm.build_lazy_prm()
     build_time = time.time() - start_time
     print('Build time', build_time)
     print('Finding Plan')
-    plan, visited = prm.query(pe.start, pe.goal)
+    plan, visited = lzprm.query(pe.start, pe.goal)
     print('Plan Found')
     pe.draw_env(show=False)
-    pe.draw_plan(plan, prm,False,False,True)
+    pe.draw_plan(plan, lzprm,False,False,True)
 
     run_time = time.time() - start_time
     print('plan:', plan)
     print('run_time =', run_time)
 
 
-    return plan, prm, visited
+    return plan, lzprm, visited
 if __name__== "__main__":
   test_prm_env()
