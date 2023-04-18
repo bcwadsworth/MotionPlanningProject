@@ -262,7 +262,7 @@ class LZ_PRM:
         for s in samples:
             node = RoadMapNode(s)
             neighbors = self.find_valid_neighbors(s, samples, self.r)
-            self.T.add_node(node, [RoadMapNode(n) for n in neighbors])
+            self.T.add_node(node, [RoadMapNode(n,cost = euclidean_heuristic(n, node)) for n in neighbors])
 
     def find_valid_neighbors(self, n_query, samples, r):
         '''
@@ -275,7 +275,6 @@ class LZ_PRM:
             if np.linalg.norm(n_query - sample) < r:
                 if not self.in_collision(sample):
                     if self.local_planner.plan(n_query, sample) is not None:
-#                        sample.cost
                         valid_neighbors.append(sample)
         return valid_neighbors
     
