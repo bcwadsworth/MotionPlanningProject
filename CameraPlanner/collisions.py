@@ -351,8 +351,15 @@ class PolygonEnvironment:
                 X1 = self.robot.fk(e[1])
                 e0 = X0[-1]
                 e1 = X1[-1]
-                plotter.plot([e0[0], e1[0]], [e0[1], e1[1]], 'b')
-                plotter.plot([e0[0], e1[0]], [e0[1], e1[1]], 'b.')
+                if (e[2] == 0):
+                    plotter.plot([e0[0], e1[0]], [e0[1], e1[1]], 'b')
+                    plotter.plot([e0[0], e1[0]], [e0[1], e1[1]], 'b.')
+                if (e[2] == -1):
+                    plotter.plot([e0[0], e1[0]], [e0[1], e1[1]], 'y')
+                    plotter.plot([e0[0], e1[0]], [e0[1], e1[1]], 'y.')
+                if (e[2] == 1):
+                    plotter.plot([e0[0], e1[0]], [e0[1], e1[1]], 'g')
+                    plotter.plot([e0[0], e1[0]], [e0[1], e1[1]], 'g.')
                 if dynamic_tree:
                     plotter.pause(0.001)
 

@@ -190,7 +190,6 @@ class RoadMap:
 	'''
 	def __init__(self):
 		self.nodes = []
-		self.edges = []
 
 	def add_node(self, q, neighbors):
 		'''
@@ -203,13 +202,17 @@ class RoadMap:
 			node.add_neighbor(n)
 			if not n.is_neighbor(node):
 				n.add_neighbor(node)
-				self.edges.append((n.state, node.state))
 
 		return node;
 				
 	def get_states_and_edges(self):
 		states = np.array([n.state for n in self.nodes])
-		return (states, self.edges)
+
+		edges = []
+		for n in self.nodes:
+			for n_n in n.neighbors:
+				edges.append((n.state, n_n.state, n.neighbors[n_n]));
+		return (states, edges)
 
 class LZ_PRM:
 	def __init__(self, 
@@ -317,9 +320,11 @@ class LZ_PRM:
 						if (flag == 0):
 							if (planner.plan(n_i.state, n.state) is not None):
 								n_i.neighbors[n] = 1;
+								n.neighbors[n_i] = 1;
 								flag = 1;
 							else:
 								n_i.neighbors[n] = -1;
+								n.neighbors[n_i] = -1;
 								flag = -1;
 
 						if (flag == 1):
@@ -343,7 +348,7 @@ def saveFig(name,close = True):
 		plotter.close()
 
   
-def test_prm_env(num_samples=300, step_length=.15, env='./env0.txt'):
+def test_prm_env(num_samples=500, step_length=1, env='./env0.txt'):
 	pe = PolygonEnvironment()
 	pe.read_env(env)
 
@@ -355,7 +360,7 @@ def test_prm_env(num_samples=300, step_length=.15, env='./env0.txt'):
 				  dims, 
 				  lims = pe.lims,
 				  n_nodes = num_samples,
-				  radius=20,
+				  radius=15,
 				  epsilon=step_length,
 				  collision_func=pe.test_collisions)
 	print('Building PRM')
@@ -414,5 +419,6 @@ def test_prm_env(num_samples=300, step_length=.15, env='./env0.txt'):
 	pe.draw_plan(plan, lzprm,False,False,True)
 
 	return plan, lzprm, visited
+
 if __name__== "__main__":
   test_prm_env()
