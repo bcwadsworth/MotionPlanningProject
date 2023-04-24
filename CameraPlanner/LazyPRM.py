@@ -370,38 +370,38 @@ def test_prm_env(num_samples=300, step_length=.15, env='./env0.txt'):
 	build_time = time.time() - start_time
 	print('Build time', build_time)
 
-	#pe.draw_env(show=False)
-	#pe.draw_plan(plan, lzprm,False,False,True)
+	pe.draw_env(show=False)
+	pe.draw_plan(plan, lzprm,False,False,True)
 
-	#start_time = time.time()
-	#print('Finding Plan')
-	#plan, visited = lzprm.query([50,0], [35,130])
-	#print('Plan Found')
-	#build_time = time.time() - start_time
-	#print('Build time', build_time)
+	start_time = time.time()
+	print('Finding Plan')
+	plan, visited = lzprm.query([50,0], [35,130])
+	print('Plan Found')
+	build_time = time.time() - start_time
+	print('Build time', build_time)
 
-	#pe.draw_env(show=False)
-	#pe.draw_plan(plan, lzprm,False,False,True)
+	pe.draw_env(show=False)
+	pe.draw_plan(plan, lzprm,False,False,True)
 
-	#start_time = time.time()
-	#print('Finding Plan')
-	#plan, visited = lzprm.query(pe.start, pe.goal)
-	#print('Plan Found')
-	#build_time = time.time() - start_time
-	#print('Build time', build_time)
+	start_time = time.time()
+	print('Finding Plan')
+	plan, visited = lzprm.query(pe.start, pe.goal)
+	print('Plan Found')
+	build_time = time.time() - start_time
+	print('Build time', build_time)
 
-	#pe.draw_env(show=False)
-	#pe.draw_plan(plan, lzprm,False,False,True)
+	pe.draw_env(show=False)
+	pe.draw_plan(plan, lzprm,False,False,True)
 
-	#start_time = time.time()
-	#print('Finding Plan')
-	#plan, visited = lzprm.query([50,0], [35,130])
-	#print('Plan Found')
-	#build_time = time.time() - start_time
-	#print('Build time', build_time)
+	start_time = time.time()
+	print('Finding Plan')
+	plan, visited = lzprm.query([50,0], [35,130])
+	print('Plan Found')
+	build_time = time.time() - start_time
+	print('Build time', build_time)
 
-	#pe.draw_env(show=False)
-	#pe.draw_plan(plan, lzprm,False,False,True)
+	pe.draw_env(show=False)
+	pe.draw_plan(plan, lzprm,False,False,True)
 
 	start_time = time.time()
 	print('Finding Plan')
