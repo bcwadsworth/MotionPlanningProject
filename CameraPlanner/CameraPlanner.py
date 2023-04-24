@@ -19,7 +19,8 @@ start_time = time.time()
 LZ_prm = LazyPRM.LZ_PRM(local_planner,
           dims,
           lims = environment.lims,
-          collision_func=environment.test_collisions,
+#          collision_func=environment.test_collisions,
+          collision_func= None,
           n_nodes = num_samples,
           radius=radius,
           epsilon=epsilon)
