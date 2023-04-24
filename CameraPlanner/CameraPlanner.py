@@ -4,7 +4,7 @@ import time
 import vrepWrapper
 import LazyPRM
 
-num_samples=5000
+num_samples=1000
 step_length=0.25
 radius = 10
 epsilon = 0.1
