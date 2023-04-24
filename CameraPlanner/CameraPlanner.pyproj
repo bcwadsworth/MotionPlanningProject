@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>63fdedab-635c-4ca4-9993-e09ec7dc5845</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>CameraPlanner.py</StartupFile>
+    <StartupFile>LazyPRM.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,7 +25,6 @@
     <Compile Include="collisions.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="dStar.py" />
     <Compile Include="LazyPRM.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
