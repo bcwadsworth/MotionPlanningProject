@@ -204,7 +204,16 @@ class RoadMap:
 				n.add_neighbor(node)
 
 		return node;
-				
+	def remove_node(self, q):
+		'''
+		Add a node to the roadmap. Connect it to its neighbors
+		'''
+		# Avoid adding duplicates
+		for n in self.nodes:
+			if(np.array_equal(n.state, q)):
+				self.nodes.remove(n);
+				break;
+		
 	def get_states_and_edges(self):
 		states = np.array([n.state for n in self.nodes])
 
@@ -287,9 +296,31 @@ class LZ_PRM:
 			return np.linalg.norm(x - goal) < self.epsilon        
 	
 		# Use uniform cost search to search for a path 
-		path, visited = self.astar(start_node, is_goal, goal_node.distance_to, self.local_planner);
-		
-		if len(path) > 1:
+		path =None;
+		time =0
+		while(path == None and time <100):
+			print(f"start_node neighbor:{len(start_node.neighbors)}")
+			print(f"goal_node neighbor:{len(goal_node.neighbors)}")
+			path, visited = self.astar(start_node, is_goal, goal_node.distance_to, self.local_planner);
+			time +=1
+			if(path == None):
+       
+				for i in range(self.N):
+
+					q = self.sample();
+					for n in self.T.nodes:
+						if(np.array_equal(n.state, q)):
+							continue;
+					self.T.add_node(q, self.find_valid_neighbors(q, self.r));
+				print(len(self.T.nodes))
+				self.T.remove_node(start);
+				self.T.remove_node(goal);
+				start_node = self.T.add_node(start, self.find_valid_neighbors(start, self.r))
+				goal_node = self.T.add_node(goal, self.find_valid_neighbors(goal, self.r))
+			
+			print(f"time:{time}")
+   
+		if path is not None and len(path) > 1:
 			return path, visited
 		
 		return None, visited
@@ -349,7 +380,7 @@ def saveFig(name,close = True):
 		plotter.close()
 
   
-def test_prm_env(num_samples=500, step_length=1, env='./env0.txt'):
+def test_prm_env(num_samples=10, step_length=1, env='./env0.txt'):
 	pe = PolygonEnvironment()
 	pe.read_env(env)
 
