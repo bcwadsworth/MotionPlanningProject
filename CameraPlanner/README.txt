@@ -1,29 +1,9 @@
-The file lbr4_trajopt.py is the one to run to generate an optimized trajectory
-and command it in V-REP. It offers a command line option interface. To see
-all the options, in a terminal type
+This program includes a LazyPRM, a collisions.py, some Vrep files, and the CameraPlanner.py.
 
-    python lbr4_trajopt.py -h
+The main code is run from CameraPlanner.py. This uses CoppeliaSim and simulates a 7-DOF robotic arm in an environment. 
 
-If you wanted to run problem 1.1 with default falues, you would type
-
-    python lbr4_trajopt.py -p 1.1
-
-OR you can also do the long form of
-
-    python lbr4_trajopt.py --problem 1.1
-
-If you want to run problem 1.2 with a gamma value of 0.1:
-
-    python lbr4_trajopt.py -p 1.2 -g 0.1
-
-Long form:
-
-    python lbr4_trajopt.py --problem 1.2 --gamma 0.1
-
-If you want to run problem 2 with a gamma value of 0.1 and beta value of 5:
-
-    python lbr4_trajopt.py -p 2 -g 0.1 -b 5
-
-Long form:
-
-    python lbr4_trajopt.py --problem 2 --gamma 0.1 --beta 5
+The code runs a simulation for a camera on a robotic arm. The code first uses Lazy PRM to create a roadmap of possible
+nodes and their neighbors. Normally PRM checks for collisions when it is creating this roadmap but we wanted the code
+to work for moving obstacles. Obstacle checking does not happen until the second step. After a roadmap is randomly 
+generated, a path is found using A*. A* uses the cost and obstacle detection to find the best path. That path is 
+optimized using Interior Point Methods.
