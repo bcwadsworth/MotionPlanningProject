@@ -391,5 +391,5 @@ class PolygonEnvironment:
                             plotter.plot([r_prev[0], r[0]], [r_prev[1], r[1]], 'g')
                     r_prev = r[:]
                 if dynamic_plan:
-                    plotter.pause(0.01)
+                    plotter.pause(0.0001)
             self.robot.draw(plan[-1], color='r', show=True)

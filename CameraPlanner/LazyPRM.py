@@ -264,9 +264,7 @@ class LZ_PRM:
 
 		for i in range(self.N):
 			q = self.sample();
-			print(i)
 			self.T.add_node(q, self.find_valid_neighbors(q, self.r));
-		print('done')
 
 	def find_valid_neighbors(self, q, r):
 		'''
